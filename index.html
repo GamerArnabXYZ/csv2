@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a0a00">
+    <title>CraftSprint.IO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="menu-body">
+    <canvas id="menu-canvas"></canvas>
+    <div class="full-screen">
+        <img src="assets/header_logo.png" class="logo-img" alt="CraftSprint">
+        <div id="splash-text">Swipe to Survive!</div>
+        <div class="menu-btns">
+            <a href="game.html" class="minecraft-btn">▶ Play Game</a>
+            <a href="settings.html" class="minecraft-btn">⚙ Settings</a>
+            <a href="about.html"    class="minecraft-btn">★ About</a>
+        </div>
+        <div style="color:#555;font-size:11px;margin-top:28px;font-family:'Minecraft',monospace;">
+            v3.0.0 · ArnabLabZ Studio
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <script>
+    // Rotating splash texts
+    var splashes = [
+        "Swipe to Survive!","Creeper? Aw man!","Never dig down!",
+        "Steve approves!","Dodge like a pro!","Made with ❤ blocks",
+        "TNT incoming!","100% Blocky!","No Herobrine inside",
+        "Parkour time!","Built different!","Infinite runner!"
+    ];
+    var el = document.getElementById('splash-text');
+    el.textContent = splashes[Math.floor(Math.random()*splashes.length)];
+    </script>
+</body>
+</html>
