@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>CraftSprint.IO - Settings</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="menu-body">
+    <canvas id="menu-canvas"></canvas>
+    <div class="full-screen">
+        <div class="settings-box">
+            <h2>⚙ Settings</h2>
+            <div class="setting-row">
+                <label>Music Volume <span class="setting-val" id="v-vol">80%</span></label>
+                <input type="range" id="music-vol" min="0" max="100" value="80"
+                       oninput="upd('music-vol','v-vol',this.value,'%')">
+            </div>
+            <div class="setting-row">
+                <label>Background Darkness <span class="setting-val" id="v-dark">45%</span></label>
+                <input type="range" id="bg-darkness" min="0" max="100" value="45"
+                       oninput="upd('bg-darkness','v-dark',this.value,'%');applyDark(this.value)">
+            </div>
+            <div class="setting-row">
+                <label>Swipe Sensitivity <span class="setting-val" id="v-sens">50%</span></label>
+                <input type="range" id="sensitivity" min="0" max="100" value="50"
+                       oninput="upd('sensitivity','v-sens',this.value,'%')">
+            </div>
+            <div class="setting-row">
+                <label>Graphics Quality <span class="setting-val" id="v-gfx">High</span></label>
+                <input type="range" id="gfx-quality" min="1" max="3" value="3" step="1"
+                       oninput="updGfx(this.value)">
+            </div>
+            <hr style="border-color:#333;margin:18px 0;">
+            <p style="color:#555;font-size:12px;margin:0;">
+                Best Score: <span id="best-disp" style="color:#55ff55;">0</span>
+            </p>
+            <button class="minecraft-btn" onclick="resetBest()"
+                    style="margin:14px auto 0;display:block;font-size:13px;height:42px;line-height:42px;">
+                Reset Best Score
+            </button>
+            <p style="color:#333;font-size:11px;margin:14px 0 0;">v3.1.0-Stable</p>
+        </div>
+        <a href="index.html" class="minecraft-btn" onclick="saveAll()">✔ Save &amp; Back</a>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+    function save(k,v){ try{localStorage.setItem('cs_'+k,v);}catch(e){} }
+    function load(k,d){ try{return localStorage.getItem('cs_'+k)||d;}catch(e){return d;} }
+    function upd(k,lbl,v,suf){ save(k,v); document.getElementById(lbl).textContent=v+suf; }
+    function applyDark(v){ document.documentElement.style.setProperty('--bg-opacity', (v/100).toFixed(2)); }
+
+    var GFX_LABELS=['','Low','Medium','High'];
+    function updGfx(v){ save('gfx-quality',v); document.getElementById('v-gfx').textContent=GFX_LABELS[v]||'High'; }
+    function saveAll(){
+        save('music-vol',   document.getElementById('music-vol').value);
+        save('bg-darkness', document.getElementById('bg-darkness').value);
+        save('sensitivity', document.getElementById('sensitivity').value);
+        save('gfx-quality', document.getElementById('gfx-quality').value);
+    }
+    function resetBest(){ localStorage.removeItem('cs_best'); document.getElementById('best-disp').textContent='0'; }
+
+    // Load on page open
+    var mv=load('music-vol',80), dv=load('bg-darkness',45), sv=load('sensitivity',50), gv=load('gfx-quality',3);
+    document.getElementById('music-vol').value  =mv;
+    document.getElementById('bg-darkness').value=dv;
+    document.getElementById('sensitivity').value=sv;
+    document.getElementById('gfx-quality').value=gv;
+    document.getElementById('v-vol').textContent =mv+'%';
+    document.getElementById('v-dark').textContent=dv+'%';
+    document.getElementById('v-sens').textContent=sv+'%';
+    document.getElementById('v-gfx').textContent =GFX_LABELS[gv]||'High';
+    document.getElementById('best-disp').textContent=load('best','0');
+    applyDark(dv);
+    </script>
+</body>
+</html>

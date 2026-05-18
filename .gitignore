@@ -1,0 +1,11 @@
+build/
+dist/
+.gradle/
+local.properties
+.cxx/
+craftsprint.js
+craftsprint.wasm
+*.apk
+.DS_Store
+GEMINI.md
+

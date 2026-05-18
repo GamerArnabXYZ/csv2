@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'io.craftsprint'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "io.craftsprint"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11 -O2"
+            }
+        }
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include "armeabi-v7a", "arm64-v8a", "x86_64"
+            universalApk true
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "../../../CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
