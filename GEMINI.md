@@ -119,3 +119,9 @@ CMakeLists.txt
 - Note: Subagent quota limitations handled by running direct analysis.
 ---
 
+**Session Log: Monday, July 6, 2026 (Continued)**
+- Status: Customization system explained.
+- Action: Documented the workspace/global AGY customization settings (Rules, Skills, Plugins, Hooks, MCP) in response to the user's slash command.
+---
+
+
