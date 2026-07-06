@@ -213,19 +213,35 @@ public class GameActivity extends Activity {
         if (biome != lastBiome) {
             lastBiome = biome;
             biomeTv.setText(BIOME_EMOJIS[biome]);
+            // Flash effect for biome change (Android parity)
+            biomeTv.animate().scaleX(1.2f).scaleY(1.2f).setDuration(100).withEndAction(() -> 
+                biomeTv.animate().scaleX(1f).scaleY(1f).setDuration(100).start()).start();
         }
 
-        // Distance bar
+        // Distance bar (Gradient style parity)
         float pct = Math.min(dist / 2500f, 1f);
         View wrap = (View) distBarFill.getParent();
         if (wrap != null && wrap.getWidth() > 0) {
             ViewGroup.LayoutParams lp = distBarFill.getLayoutParams();
             lp.width = (int)(wrap.getWidth() * pct);
             distBarFill.setLayoutParams(lp);
+            
+            // Sync with gradient logic
+            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, 
+                new int[] {Color.parseColor("#55ff55"), Color.parseColor("#ffff00"), Color.parseColor("#ff5555")});
+            distBarFill.setBackground(gd);
         }
 
         // Game over
         if (go && !lastGameOver) {
+            // Death animation parity
+            gameOverLayout.setAlpha(0f);
+            gameOverLayout.animate().alpha(1f).setDuration(400).start();
+            
+            // Wobble effect
+            diedTv.animate().scaleX(1.1f).scaleY(1.1f).setDuration(300).withEndAction(() ->
+                diedTv.animate().scaleX(1f).scaleY(1f).setDuration(300).start()).start();
+                
             lastGameOver = true;
             deathMsgTv.setText(DEATH_MSGS[(int)(Math.random() * DEATH_MSGS.length)]);
             finalScoreTv.setText("Score: " + score);
@@ -264,28 +280,34 @@ public class GameActivity extends Activity {
         tv.setText(text); tv.setTextSize(sp); tv.setTextColor(color);
         tv.setTypeface(mcFont);
         tv.setShadowLayer(3, 2, 2, Color.BLACK);
+        // Sync with Web: rgba(0,0,0,0.55), 2px solid border
         tv.setBackgroundColor(Color.parseColor("#88000000"));
-        tv.setPadding(dp(8), dp(4), dp(8), dp(4));
+        GradientDrawable border = new GradientDrawable();
+        border.setColor(Color.parseColor("#88000000"));
+        border.setStroke(dp(2), Color.parseColor("#40FFFFFF"));
+        tv.setBackground(border);
+        tv.setPadding(dp(12), dp(6), dp(12), dp(6));
         return tv;
     }
 
     private Button makeMcBtn(String text, int heightPx, View.OnClickListener clk) {
         Button b = new Button(this);
         b.setText(text); b.setTypeface(mcFont);
-        b.setTextColor(Color.WHITE); b.setTextSize(15);
+        b.setTextColor(Color.WHITE); b.setTextSize(16); // Sync size
         b.setAllCaps(false);
         b.setShadowLayer(3, 2, 2, Color.BLACK);
         b.setOnClickListener(clk);
-        if (btnBmp != null)
+        // Sync with Web: pixelated button style
+        if (btnBmp != null) {
             b.setBackground(new BitmapDrawable(getResources(), btnBmp));
-        else {
+        } else {
             GradientDrawable gd = new GradientDrawable();
             gd.setColor(Color.parseColor("#555555"));
             gd.setStroke(dp(3), Color.BLACK);
             b.setBackground(gd);
         }
-        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(dp(150), heightPx);
-        p.setMargins(dp(8), 0, dp(8), 0);
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(dp(200), heightPx); // Sync width
+        p.setMargins(dp(8), dp(8), dp(8), dp(8));
         b.setLayoutParams(p);
         return b;
     }
