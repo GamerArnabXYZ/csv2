@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>CraftSprint.IO - Playing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HUD -->
+    <div id="ui">
+        <div id="score">Score: 0</div>
+        <div id="biome-display">🌿 Plains</div>
+        <div id="combo-display">×1</div>
+    </div>
+
+    <!-- Distance progress bar -->
+    <div id="dist-bar-wrap"><div id="dist-bar"></div></div>
+
+    <!-- Biome transition toast -->
+    <div id="biome-toast"></div>
+
+    <!-- Death Screen -->
+    <div id="game-over" class="overlay">
+        <h1>YOU DIED!</h1>
+        <p class="death-cause" id="death-msg">Steve was blown up by TNT</p>
+        <p class="final-score" id="final-score"></p>
+        <p class="high-score"  id="high-score-display"></p>
+        <div class="menu-btns">
+            <button onclick="doRestart()" class="minecraft-btn">⚔ Respawn</button>
+            <a href="index.html" class="minecraft-btn" onclick="doStop()">🏠 Title Screen</a>
+        </div>
+    </div>
+
+    <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+    <script src="main.js"></script>
+    <script async src="craftsprint.js"></script>
+</body>
+</html>

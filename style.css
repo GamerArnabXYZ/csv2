@@ -1,0 +1,233 @@
+/* ══════════════════════════════════════════════════════════════
+   CraftSprint.IO  —  Minecraft Web UI  v3.0
+   Mobile-first, pixelated, touch-perfect
+══════════════════════════════════════════════════════════════ */
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('assets/fonts/Minecraft.ttf') format('truetype');
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+}
+
+html, body {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #111; /* Base dark color */
+    font-family: 'Minecraft', monospace;
+    touch-action: none;
+}
+
+/* ── Panorama background ────────────────────────────────────── */
+.menu-body {
+    background: #000;
+}
+#menu-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 1; /* Positive z-index to be above body */
+}
+
+/* ── Full-screen overlay ────────────────────────────────────── */
+.full-screen {
+    position: relative;
+    z-index: 5; /* Above canvas */
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: rgba(0, 0, 0, var(--bg-opacity, 0.45));
+}
+
+/* ── Logo ───────────────────────────────────────────────────── */
+.logo-img {
+    width: min(88vw, 500px);
+    margin-bottom: 28px;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.7));
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+.header-logo {
+    width: min(72vw, 380px);
+    margin-bottom: 18px;
+    image-rendering: pixelated;
+}
+
+/* ── Splash text ────────────────────────────────────────────── */
+#splash-text {
+    color: #ffff00;
+    font-size: clamp(14px, 4.5vw, 22px);
+    text-shadow: 2px 2px 0 #555500, -1px -1px 0 #333300;
+    position: absolute;
+    top: calc(50% - 160px);
+    right: clamp(8%, 14vw, 20%);
+    transform: rotate(-20deg) scale(1);
+    animation: splashPulse 0.55s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
+}
+@keyframes splashPulse {
+    from { transform: rotate(-20deg) scale(1.0); }
+    to   { transform: rotate(-20deg) scale(1.12); }
+}
+
+/* ── Minecraft Button (asset-based) ────────────────────────── */
+.minecraft-btn {
+    display: block;
+    background: url('assets/button_bg.png') no-repeat center / 100% 100%;
+    border: none;
+    color: #fff;
+    padding: 0;
+    height: clamp(44px, 12vw, 58px);
+    line-height: clamp(44px, 12vw, 58px);
+    font-size: clamp(15px, 4.5vw, 22px);
+    font-family: 'Minecraft', monospace;
+    cursor: pointer;
+    width: min(85vw, 340px);
+    margin: 8px 0;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 2px 2px 0 #000;
+    image-rendering: pixelated;
+    -webkit-user-select: none;
+    transition: filter 0.08s, transform 0.08s;
+}
+.minecraft-btn:hover  { filter: brightness(1.25); color: #ffffa0; }
+.minecraft-btn:active { transform: scale(0.94); filter: brightness(0.8); }
+
+/* ── Menu button group ──────────────────────────────────────── */
+.menu-btns { display: flex; flex-direction: column; align-items: center; }
+
+/* ── Settings box ───────────────────────────────────────────── */
+.settings-box {
+    background: rgba(0,0,0,0.82);
+    border: 4px solid #fff;
+    box-shadow: inset 0 0 0 2px #555, 0 0 20px rgba(0,0,0,0.6);
+    padding: clamp(20px,6vw,40px);
+    color: #fff;
+    text-align: center;
+    width: min(92vw, 440px);
+    margin-bottom: 24px;
+    image-rendering: pixelated;
+}
+.settings-box h2 {
+    margin: 0 0 16px;
+    font-size: clamp(18px, 5vw, 26px);
+    color: #fff;
+    text-shadow: 2px 2px 0 #000;
+}
+
+/* Range slider — Minecraft green accent */
+input[type=range] {
+    width: 100%; height: 22px;
+    cursor: pointer;
+    accent-color: #55ff55;
+    margin: 4px 0;
+    touch-action: pan-x !important; /* Allow touch panning for sliders */
+}
+.setting-row { margin: 14px 0; text-align: left; }
+.setting-row label { display: block; color: #aaa; font-size: clamp(12px,3.5vw,15px); margin-bottom:4px; }
+.setting-val { color: #ffff00; float: right; }
+
+/* ── HUD ────────────────────────────────────────────────────── */
+#ui {
+    position: fixed; top: 0; left: 0;
+    width: 100%; pointer-events: none;
+    z-index: 10;
+    padding: 14px 16px 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+}
+#score, #combo-display, #biome-display {
+    font-family: 'Minecraft', monospace;
+    color: #fff;
+    text-shadow: 2px 2px 0 #000;
+    background: rgba(0,0,0,0.55);
+    border: 2px solid rgba(255,255,255,0.25);
+    padding: 8px 14px;
+    font-size: clamp(13px, 4vw, 20px);
+    image-rendering: pixelated;
+}
+#combo-display { color: #ffff00; display: none; }
+#biome-display { color: #55ffff; font-size: clamp(11px,3vw,15px); }
+
+/* ── HUD bottom — distance bar ──────────────────────────────── */
+#dist-bar-wrap {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 6px; background: rgba(0,0,0,0.4);
+    pointer-events: none; z-index: 10;
+}
+#dist-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg,#55ff55,#ffff00,#ff5555);
+    transition: width 0.3s linear;
+}
+
+/* ── Death / Game-Over screen ───────────────────────────────── */
+.overlay {
+    display: none;
+    position: fixed; inset: 0;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    background: rgba(100,0,0,0.65);
+    z-index: 20;
+    animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.overlay h1 {
+    color: #fff;
+    font-size: clamp(36px, 12vw, 72px);
+    text-shadow: 4px 4px 0 #000, -2px -2px 0 #600;
+    margin: 0 0 8px;
+    animation: deathWobble 0.6s ease;
+}
+@keyframes deathWobble {
+    0%  { transform: scale(0.6) rotate(-4deg); }
+    60% { transform: scale(1.08) rotate(2deg); }
+    100%{ transform: scale(1) rotate(0); }
+}
+.overlay .death-cause {
+    color: #ddd; font-size: clamp(13px,4vw,18px);
+    text-shadow: 1px 1px 0 #000;
+    margin: 0 0 6px;
+}
+.overlay .final-score {
+    color: #ffffa0; font-size: clamp(15px,4.5vw,22px);
+    text-shadow: 2px 2px 0 #000;
+    margin: 0 0 4px;
+}
+.overlay .high-score {
+    color: #55ff55; font-size: clamp(12px,3.5vw,16px);
+    margin: 0 0 20px;
+}
+
+/* ── Biome toast ────────────────────────────────────────────── */
+#biome-toast {
+    position: fixed; top: 80px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    border: 3px solid #55ffff;
+    color: #55ffff;
+    font-family: 'Minecraft', monospace;
+    font-size: clamp(13px,4vw,18px);
+    padding: 10px 24px;
+    pointer-events: none;
+    z-index: 15;
+    display: none;
+    text-shadow: 1px 1px 0 #000;
+    animation: toastPop 0.3s ease;
+}
+@keyframes toastPop {
+    from { transform: translateX(-50%) scale(0.7); opacity:0; }
+    to   { transform: translateX(-50%) scale(1);   opacity:1; }
+}
+
+/* ── Canvas ─────────────────────────────────────────────────── */
+#canvas { display:none; touch-action:none; }
