@@ -263,19 +263,23 @@ void Engine::render() {
         renderer.addCubeToBatch(p.pos, {0.18f, 0.18f, 0.18f}, fadedCol);
     }
 
-    // Player body
+    // Player model: Steve (2 cubes)
     bool invFlash = (player.iframes > 0.0f) && ((int)(player.iframes * 10) % 2 == 0);
-    Vec3 pColor   = invFlash          ? Vec3{1.0f, 1.0f, 0.0f}
-                  : isGameOver        ? Vec3{1.0f, 0.2f, 0.2f}
-                                      : Vec3{0.25f, 0.55f, 1.0f};
-    Vec3 pScale = {0.7f, player.isSliding ? 0.38f : 0.75f, 0.7f};
-    Vec3 pPos   = {player.pos.x, player.pos.y + player.bobY, player.pos.z};
-    if (player.isSliding) pPos.y -= 0.18f;
-    renderer.addCubeToBatch(pPos, pScale, pColor);
+    Vec3 skinCol  = invFlash ? Vec3{1.0f, 1.0f, 0.0f} : Vec3{0.9f, 0.7f, 0.5f};
+    Vec3 shirtCol = invFlash ? Vec3{1.0f, 1.0f, 0.0f} : Vec3{0.2f, 0.3f, 0.8f};
+    Vec3 pantCol  = invFlash ? Vec3{1.0f, 1.0f, 0.0f} : Vec3{0.2f, 0.2f, 0.4f};
 
-    // Player head
-    Vec3 headPos = {pPos.x, pPos.y + (player.isSliding ? 0.28f : 0.68f), pPos.z};
-    renderer.addCubeToBatch(headPos, {0.55f, 0.55f, 0.55f}, pColor);
+    float yOff = player.isSliding ? -0.2f : 0.0f;
+    Vec3 bodyPos = {player.pos.x, player.pos.y + player.bobY + 0.4f + yOff, player.pos.z};
+    
+    // Body (Shirt)
+    renderer.addCubeToBatch(bodyPos, {0.6f, 0.8f, 0.3f}, shirtCol);
+    // Legs (Pants)
+    renderer.addCubeToBatch({bodyPos.x, bodyPos.y - 0.75f, bodyPos.z}, {0.6f, 0.7f, 0.3f}, pantCol);
+
+    // Head (Skin)
+    Vec3 headPos = {bodyPos.x, bodyPos.y + 0.75f, bodyPos.z};
+    renderer.addCubeToBatch(headPos, {0.45f, 0.45f, 0.45f}, skinCol);
 
     // Death bg
     if (isGameOver) {
