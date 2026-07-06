@@ -42,7 +42,7 @@ public class GameActivity extends Activity {
 
     // Views
     private GLSurfaceView glView;
-    private TextView      scoreTv, comboTv, biomeTv;
+    private TextView      scoreTv, comboTv, biomeTv, diedTv;
     private View          distBarFill;
     private FrameLayout   gameOverLayout;
     private TextView      finalScoreTv, highScoreTv, deathMsgTv;
@@ -134,7 +134,7 @@ public class GameActivity extends Activity {
         gameOverLayout.setVisibility(View.GONE);
 
         // YOU DIED
-        TextView diedTv = new TextView(this);
+        diedTv = new TextView(this);
         diedTv.setText("YOU DIED!");
         diedTv.setTextSize(48); diedTv.setTextColor(Color.WHITE);
         diedTv.setTypeface(mcFont); diedTv.setGravity(Gravity.CENTER);
