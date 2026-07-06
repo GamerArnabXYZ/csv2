@@ -8,4 +8,6 @@ craftsprint.wasm
 *.apk
 .DS_Store
 GEMINI.md
+.qwen/
+memory/
 

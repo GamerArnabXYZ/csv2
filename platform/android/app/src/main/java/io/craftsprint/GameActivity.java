@@ -231,9 +231,9 @@ public class GameActivity extends Activity {
             finalScoreTv.setText("Score: " + score);
 
             SharedPreferences prefs = getSharedPreferences("craftsprint", Context.MODE_PRIVATE);
-            int saved = prefs.getInt("best", 0);
+            int saved = prefs.getInt("cs_best", 0);
             if (score > saved) {
-                prefs.edit().putInt("best", score).apply();
+                prefs.edit().putInt("cs_best", score).apply();
                 highScoreTv.setText("🏆 New Best!");
             } else {
                 highScoreTv.setText("Best: " + saved);

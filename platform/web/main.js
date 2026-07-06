@@ -17,7 +17,7 @@ var Module = {
 // ── State ───────────────────────────────────────────────────────
 var startX = 0, startY = 0;
 var isGameOver = false;
-var lastBiome  = '';
+var lastBiome  = null;
 var bestScore  = parseInt(localStorage.getItem('cs_best') || '0');
 
 var BIOME_NAMES = { 0:'🌿 Plains', 1:'🌵 Desert', 2:'🔥 Nether', 3:'❄ Snowy' };
@@ -92,7 +92,7 @@ function updateUI(score, gameOverInt, combo, highScore, distance) {
     var biomeName = BIOME_NAMES[biomeIdx] || '🌿 Plains';
     var biomeEl = document.getElementById('biome-display');
     if (biomeEl) biomeEl.textContent = biomeName;
-    if (biomeName !== lastBiome && lastBiome !== '') {
+    if (lastBiome !== null && biomeName !== lastBiome) {
         var toast = document.getElementById('biome-toast');
         if(toast) {
             toast.textContent = 'Entering ' + biomeName + '!';
