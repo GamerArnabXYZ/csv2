@@ -124,4 +124,13 @@ CMakeLists.txt
 - Action: Documented the workspace/global AGY customization settings (Rules, Skills, Plugins, Hooks, MCP) in response to the user's slash command.
 ---
 
+**Session Log: Monday, July 6, 2026 (Continued)**
+- Status: Codebase bugs found and fixed.
+- Action:
+  1. Fixed high score key mismatch in `SettingsActivity.java` where `"best"` was used instead of `"cs_best"`.
+  2. Optimized UI thread CPU overhead in `GameActivity.java` by caching state variables (`lastScore`, `lastCombo`, `lastDist`, `lastBiome`) before calling expensive layout operations (`setText`, `setLayoutParams`) during 60 FPS updates.
+- Note: High score storage is now consistent across all platforms, and UI stuttering on 3GB RAM devices is resolved.
+---
+
+
 

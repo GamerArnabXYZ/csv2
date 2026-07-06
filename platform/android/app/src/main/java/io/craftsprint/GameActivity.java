@@ -51,6 +51,9 @@ public class GameActivity extends Activity {
     private float   startX, startY;
     private boolean lastGameOver = false;
     private int     lastBiome   = -1;
+    private int     lastScore   = -1;
+    private int     lastCombo   = -1;
+    private int     lastDist    = -1;
 
     private Typeface mcFont;
     private Bitmap   btnBmp;
@@ -175,6 +178,10 @@ public class GameActivity extends Activity {
             restartGame();
             gameOverLayout.setVisibility(View.GONE);
             lastGameOver = false;
+            lastScore = -1;
+            lastCombo = -1;
+            lastDist = -1;
+            lastBiome = -1;
             comboTv.setVisibility(View.GONE);
         }));
         btnRow.addView(makeMcBtn("🏠 Title", dp(50), v -> {
@@ -196,13 +203,19 @@ public class GameActivity extends Activity {
         int combo  = getComboBonus();
         boolean go = isGameOver();
 
-        scoreTv.setText("Score: " + score);
+        if (score != lastScore) {
+            scoreTv.setText("Score: " + score);
+            lastScore = score;
+        }
 
-        if (combo > 1) {
-            comboTv.setText("×" + combo + " COMBO");
-            comboTv.setVisibility(View.VISIBLE);
-        } else {
-            comboTv.setVisibility(View.GONE);
+        if (combo != lastCombo) {
+            if (combo > 1) {
+                comboTv.setText("×" + combo + " COMBO");
+                comboTv.setVisibility(View.VISIBLE);
+            } else {
+                comboTv.setVisibility(View.GONE);
+            }
+            lastCombo = combo;
         }
 
         // Biome — USE ACTUAL DISTANCE
@@ -219,17 +232,20 @@ public class GameActivity extends Activity {
         }
 
         // Distance bar (Gradient style parity)
-        float pct = Math.min(dist / 2500f, 1f);
-        View wrap = (View) distBarFill.getParent();
-        if (wrap != null && wrap.getWidth() > 0) {
-            ViewGroup.LayoutParams lp = distBarFill.getLayoutParams();
-            lp.width = (int)(wrap.getWidth() * pct);
-            distBarFill.setLayoutParams(lp);
-            
-            // Sync with gradient logic
-            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, 
-                new int[] {Color.parseColor("#55ff55"), Color.parseColor("#ffff00"), Color.parseColor("#ff5555")});
-            distBarFill.setBackground(gd);
+        if (dist != lastDist) {
+            float pct = Math.min(dist / 2500f, 1f);
+            View wrap = (View) distBarFill.getParent();
+            if (wrap != null && wrap.getWidth() > 0) {
+                ViewGroup.LayoutParams lp = distBarFill.getLayoutParams();
+                lp.width = (int)(wrap.getWidth() * pct);
+                distBarFill.setLayoutParams(lp);
+                
+                // Sync with gradient logic
+                GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, 
+                    new int[] {Color.parseColor("#55ff55"), Color.parseColor("#ffff00"), Color.parseColor("#ff5555")});
+                distBarFill.setBackground(gd);
+            }
+            lastDist = dist;
         }
 
         // Game over

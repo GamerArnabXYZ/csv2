@@ -99,7 +99,7 @@ public class SettingsActivity extends Activity {
         col.addView(makeSlider("Background Darkness",   "bg-darkness",  45,  0, 100));
         col.addView(makeSlider("Graphics Quality (1-3)","gfx-quality",   3,  1,   3));
 
-        int best = prefs.getInt("best", 0);
+        int best = prefs.getInt("cs_best", 0);
         TextView bestTv = new TextView(this);
         bestTv.setText("Best Score: " + best);
         bestTv.setTextSize(14);
@@ -112,7 +112,7 @@ public class SettingsActivity extends Activity {
 
         Button resetBtn = makeMcBtn("Reset Best Score", dp(48));
         resetBtn.setOnClickListener(v -> {
-            prefs.edit().remove("best").apply();
+            prefs.edit().remove("cs_best").apply();
             bestTv.setText("Best Score: 0");
         });
         col.addView(resetBtn);
